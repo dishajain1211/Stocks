@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <title>Title Text</title>
+
+    <!--
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    -->
+
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/data.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/drag-panes.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/stock/indicators/indicators.js"></script>
+    <script src="https://code.highcharts.com/stock/indicators/volume-by-price.js"></script>
+    <script>
+function getUTCFromAPIFormatHistory(APIDate) {
+  var d = new Date(APIDate);
+  var year = d.getUTCFullYear();
+  var month = d.getUTCMonth();
+  var day = d.getUTCDate();
+  var hour = d.getUTCHours(); // Hours // - 7 for Los Angeles Time
+  var minute =  d.getUTCMinutes();
+  var sec =  d.getUTCSeconds();
+
+  //TO UTC
+  var utcDate1 = Date.UTC(year, month, day, hour, minute, sec);
+  return utcDate1;
+}
+
+function myFunctionTest(ticker) {
+  //document.getElementById("info").innerHTML = ticker;
+
+}
+function myFunction(ticker) {
+  //document.getElementById("info2").innerHTML = "myFunction()";
+
+
+Highcharts.getJSON('http://10.0.2.2:3000/details/historicalChart?ticker='+ticker, function (data) {
+
+    // split the data set into ohlc and volume
+    var ohlc = [],
+        volume = [],
+        dataLength = data.length,
+        // set the allowed units for data grouping
+        groupingUnits = [[
+            'week',                         // unit name
+            [1]                             // allowed multiples
+        ], [
+            'month',
+            [1, 2, 3, 4, 6]
+        ]],
+
+        i = 0;
+
+    for (i; i < dataLength; i += 1) {
+      var new_date = getUTCFromAPIFormatHistory(data[i]['date']);
+      /*
+        ohlc.push([
+            data[i][0], // the date
+            data[i][1], // open
+            data[i][2], // high
+            data[i][3], // low
+            data[i][4] // close
+        ]);
+      */
+      ohlc.push([new_date, data[i]['open'], data[i]['high'], data[i]['low'], data[i]['close']]);
+        volume.push([new_date,data[i]['volume']]);
+
+/*
+        volume.push([
+            data[i][0], // the date
+            data[i][5] // the volume
+        ]);
+      */
+    }
+
+
+    // create the chart
+    Highcharts.stockChart('container2', {
+
+      renderTo: 'container2',
+        rangeSelector: {
+            selected: 2
+        },
+
+        yAxis: [{
+            startOnTick: false,
+            endOnTick: false,
+            labels: {
+                align: 'right',
+                x: -3
+            },
+            title: {
+                text: 'OHLC'
+            },
+            height: '70%',
+            lineWidth: 2,
+            resize: {
+                enabled: true
+            }
+        }, {
+            labels: {
+                align: 'right',
+                x: -3
+            },
+            title: {
+                text: 'Volume'
+            },
+            top: '75%',
+            height: '35%',
+            offset: 0,
+            lineWidth: 2
+        }],
+
+        tooltip: {
+            split: true
+        },
+
+        plotOptions: {
+            series: {
+                dataGrouping: {
+                    units: groupingUnits
+                }
+            }
+        },
+
+        series: [{
+            type: 'candlestick',
+            name: ticker,
+            id: ticker,
+            zIndex: 2,
+            data: ohlc
+        }, {
+            type: 'column',
+            name: 'Volume',
+            id: 'volume',
+            data: volume,
+            yAxis: 1
+        }, {
+            type: 'vbp',
+            linkedTo: ticker,
+            params: {
+                volumeSeriesID: 'volume'
+            },
+            dataLabels: {
+                enabled: false
+            },
+            zoneLines: {
+                enabled: false
+            }
+        }, {
+            type: 'sma',
+            linkedTo: ticker,
+            zIndex: 1,
+            marker: {
+                enabled: false
+            }
+        }]
+    });
+});
+
+}
+/*
+function JavaFunct(ticker) {
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById("info").innerHTML = "New text2" ;
+        myFunction(ticker);
+    }, false);
+
+}
+//JavaFunct(a);
+*/
+</script>
+
+</head>
+<body>
+<div id="container2" style="height: 295px;"></div>
+</body>
+</html>

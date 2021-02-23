@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:paddingLeft="15dp"
+        android:paddingTop="30dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="30dp"
+        >
+        <TextView
+            android:id="@+id/tradeCompID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Trade Amazon.com Inc shares"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:gravity="left"
+            android:textStyle="bold"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/noOfSharesID"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="0"
+                android:textSize="30sp"
+                android:inputType="numberDecimal"
+                android:backgroundTint="@color/purple"/>
+                <!--           android:inputType="number" -->
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="4"
+                android:gravity="end"
+                android:text="shares"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/calcID"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="0 x $202.68/share = $0.00"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:gravity="end"
+            />
+        <TextView
+            android:id="@+id/liquidAmtID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:text="$8908.10 available to buy MSFT"
+            android:textColor="@color/darkgrey"
+            android:textSize="13sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp"
+            >
+
+            <Button
+                android:id="@+id/buyBtnID"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="BUY"
+                android:layout_weight="2"
+                android:textColor="@color/white"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/newscard_corner"
+                />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="AA"
+                android:layout_weight="3"
+                android:textColor="@android:color/transparent"
+
+                />
+
+            <Button
+                android:id="@+id/sellBtnID"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="SELL"
+                android:layout_weight="2"
+                android:textColor="@color/white"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/newscard_corner"
+                />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

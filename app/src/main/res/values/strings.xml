@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Stocks</string>
+    <string-array name="query_suggestions">
+        <item>Furniture</item>
+        <item>Service</item>
+        <item>Real Estate</item>
+        <item>Pet Care</item>
+    </string-array>
+    <string name="title_activity_details_page">DetailsPage</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+</resources>
